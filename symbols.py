@@ -12,3 +12,13 @@ class Quantifiers:
 class Brackets:
     LEFT_PARENTHESES = "("
     RIGHT_PARENTHESES = ")"
+
+class SetSymbols:
+    LEFT_BRACE = "\{"
+    RIGHT_BRACE = "\}"
+    MID = "|"
+    IN = "\\in"
+    SUBSET = "\\subset"
+    INTERSECT = "\\intersect"
+    UNION = "\\union"
+    DIFFERENCE = "\\difference"
