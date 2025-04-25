@@ -1,8 +1,3 @@
-class Values:
-    TRUE = 1
-    FALSE = 0
-    UNKNOWN = -1
-
 class Connectives:
     NOT = "\\not"
     AND = "\\and"
