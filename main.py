@@ -1,16 +1,16 @@
-# This is a sample Python script.
+def welcome_message():
+    print("Welcome to Logic Solver v1.0")
+    print("Currently supported features:")
+    print("\t - Basic propositional logic")
+    print("\t - Set theory")
+    print("Commands you can use:")
+    print("\t - _n: mathematical notation list")
+    print()
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+def wait_for_query():
+    while True:
+        query = input("> ")
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    welcome_message()
+    wait_for_query()
