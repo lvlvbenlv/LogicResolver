@@ -1,4 +1,5 @@
 from statement import *
+from symbols import *
 
 def welcome_message():
     print("Welcome to Logic Solver v1.0")
@@ -12,10 +13,17 @@ def welcome_message():
 def wait_for_query():
     while True:
         query = input("> ")
-        statement = Statement(query)
-        print(statement.components)
-        print(statement.all_pairs())
-        print(statement.initialize_bst())
+        if query in vars(Commands).values():
+            proceed_command(query)
+        else:
+            statement = Statement(query)
+            print(statement.components)
+            print(statement.all_pairs())
+            print(statement.initialize_bst())
+
+def proceed_command(command):
+    if command == Commands.NOTATION:
+        print("NOTATION")
 
 if __name__ == '__main__':
     welcome_message()

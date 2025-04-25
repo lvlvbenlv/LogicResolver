@@ -1,3 +1,6 @@
+class Commands:
+    NOTATION = "_n"
+
 class Connectives:
     NOT = "\\not"
     AND = "\\and"
