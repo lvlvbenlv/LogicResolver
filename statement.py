@@ -1,4 +1,6 @@
 from binarytree import Node
+from symbols import *
+from utils import Stack
 
 class Statement:
 
@@ -6,17 +8,17 @@ class Statement:
         self.components = statement.split()
         self.value = value
 
-    def find_pairs(lst, start, end): 
-    
+    def find_pairs(lst, start, end):
         def find_all_parentheses_positions(lst):
             left_indices = []
             right_indices = []
             for i, element in enumerate(lst):
-                if element == '(':
+                if element == Brackets.LEFT_PARENTHESES:
                     left_indices.append(i)
-                elif element == ')':
+                elif element == Brackets.RIGHT_PARENTHESES:
                     right_indices.append(i)
             return left_indices, right_indices
+
         left_l, right_l = find_all_parentheses_positions(lst)
         pairs = []
         pare_count = 0
@@ -28,7 +30,7 @@ class Statement:
                 pare_count -= 1
             if pare_count == 0:
                 current_end = i
-                small_list_pairs =[]
+                small_list_pairs = []
                 small_list_pairs.append((current_start, current_end))
                 inner_pairs = find_pairs(lst, current_start + 1, current_end - 1)
                 if inner_pairs:
