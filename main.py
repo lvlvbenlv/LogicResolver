@@ -13,7 +13,9 @@ def wait_for_query():
             print(statement.is_tautology())
 
 def proceed_command(command):
-    if command == Commands.NOTATION:
+    if command == Commands.SYNTAX:
+        print(ControlMessages.SYNTAX_MESSAGE)
+    elif command == Commands.NOTATION:
         print(ControlMessages.COMMAND_MESSAGE)
     elif command == Commands.EXAMPLE:
         print(ControlMessages.EXAMPLE_MESSAGE)

@@ -24,6 +24,6 @@ class ControlMessages:
         "\t Exists: \\exists\n"
     )
     EXAMPLE_MESSAGE = (
-        "> ( ( ( B \\or C) \\and ( C \\and D ) ) \\imply ( B \\or C ) )\n"
-        "true"
+        "> ( ( ( B \\or C ) \\and ( C \\and D ) ) \\imply ( B \\or C ) )\n"
+        "True\n"
     )

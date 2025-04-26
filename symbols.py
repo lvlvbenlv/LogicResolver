@@ -1,4 +1,5 @@
 class Commands:
+    SYNTAX = "_s"
     NOTATION = "_n"
     EXAMPLE = "_e"
 

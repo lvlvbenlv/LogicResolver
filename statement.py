@@ -18,7 +18,7 @@ class Statement:
             component = self.components[i]
             try:
                 var = Variable(component)
-                if var not in self.variables:
+                if var.name not in [v.name for v in self.variables]:
                     self.variables.append(var)
                     self.var_index.append(i)
             except ValueError:
