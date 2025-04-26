@@ -2,8 +2,6 @@ from terms import *
 from symbols import *
 from utils import *
 
-
-
 class Statement:
 
     def __init__(self, statement):
@@ -37,16 +35,6 @@ class Statement:
 
     def component_indexes(self, component):
         return [i for i, c in enumerate(self.components) if c == component]
-
-    # def find_all_parentheses_positions(lst):
-    #     left_indices = []
-    #     right_indices = []
-    #     for i, element in enumerate(lst):
-    #         if element == Brackets.LEFT_PARENTHESES:
-    #             left_indices.append(i)
-    #         elif element == Brackets.RIGHT_PARENTHESES:
-    #             right_indices.append(i)
-    #     return left_indices, right_indices
 
     def initialize_bst(self):
         return self.insert(Node(None), self.all_pairs())
