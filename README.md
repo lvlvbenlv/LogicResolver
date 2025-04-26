@@ -9,7 +9,7 @@ Team Name: DeepSleep
 ## Features
 
 - Supports key operations in mathematical logic.
-- Supports user-added axioms.
+- ~~Supports user-added axioms.~~
 - Lightweight and easy to set up.
 
 ## Installation
