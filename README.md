@@ -2,7 +2,7 @@
 
 A simple and intuitive tool to solve mathematical logic problems with ease and precision.
 
-##Unimelb Codebrew 2025
+## Unimelb Codebrew 2025
 
 Team Name: DeepSleep
 
@@ -16,6 +16,6 @@ Team Name: DeepSleep
 
 To install and run the solver locally:
 ```bash
-git clone [https://github.com/lvlvbenlv/LogicResolver.git)
+git clone [https://github.com/lvlvbenlv/LogicResolver.git]
 cd LogicResolver
 python main.py
