@@ -16,7 +16,10 @@ class Statement:
         for i in range(len(self.components)):
             component = self.components[i]
             try:
-                var = Variable(component)
+                if component in [v.name for v in self.variables]:
+                    var = next(v for v in self.variables if v.name == component)
+                else:
+                    var = Variable(component)
                 index = self.components.index(component)
                 self.components[index] = var
                 if var.name not in [v.name for v in self.variables]:
@@ -34,8 +37,6 @@ class Statement:
                 self.variables[i].set_value(comb[i])
             current_expression = self.components
             logical_results.append(evaluate_expression(current_expression).value)
-        # print(all_comb)
-        # print(logical_results)
         return (all(logical_results))
 
 

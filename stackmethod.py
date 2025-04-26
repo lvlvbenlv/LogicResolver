@@ -29,7 +29,7 @@ def evaluate_expression(expression): # return an variable object, access by .val
             stack.pop()  # Remove the '('
             sub_expr = sub_expr[::-1]
             result = evaluate_sub_expression(sub_expr)
-            
+                        
             sub_statement_result = Variable("Sub_tmp")
             sub_statement_result.set_value(result)
             stack.append(sub_statement_result)
