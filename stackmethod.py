@@ -37,6 +37,8 @@ def evaluate_expression(expression): # return an variable object, access by .val
     return stack[0] if stack else None
 
 def evaluate_sub_expression(sub_expr):
+    if len(sub_expr) == 1:
+        return sub_expr[0].value  # Directly return the single variable
     while len(sub_expr) > 1 or (len(sub_expr) == 2 and sub_expr[0] == Connectives.NOT):
         if len(sub_expr) == 2 and sub_expr[0] == Connectives.NOT:
             operator = sub_expr.pop(0)
