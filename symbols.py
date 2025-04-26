@@ -1,5 +1,6 @@
 class Commands:
     NOTATION = "_n"
+    EXAMPLE = "_e"
 
 class Connectives:
     NOT = "\\not"

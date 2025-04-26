@@ -10,12 +10,13 @@ def wait_for_query():
         else:
             statement = Statement(query)
             print(statement.components)
-            print(statement.all_pairs())
-            print(statement.initialize_bst())
+            print(statement.is_tautology())
 
 def proceed_command(command):
     if command == Commands.NOTATION:
         print(ControlMessages.COMMAND_MESSAGE)
+    elif command == Commands.EXAMPLE:
+        print(ControlMessages.EXAMPLE_MESSAGE)
 
 if __name__ == '__main__':
     print(ControlMessages.WELCOME_MESSAGE)

@@ -4,7 +4,12 @@ class ControlMessages:
         "Currently supported features:\n"
         "\t - Basic propositional logic\n"
         "Commands you can use:\n"
+        "\t - _s: input syntax\n"
         "\t - _n: mathematical notation list\n"
+        "\t - _e: some examples\n"
+    )
+    SYNTAX_MESSAGE = (
+
     )
     COMMAND_MESSAGE = (
         "Logic connectives:\n"
@@ -17,4 +22,8 @@ class ControlMessages:
         "Logic quantifiers:\n"
         "\t For all: \\forall\n"
         "\t Exists: \\exists\n"
+    )
+    EXAMPLE_MESSAGE = (
+        "> ( ( ( B \\or C) \\and ( C \\and D ) ) \\imply ( B \\or C ) )\n"
+        "true"
     )
