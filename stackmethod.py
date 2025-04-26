@@ -1,3 +1,18 @@
+from symbols import Connectives
+from resolvers import TruthTables
+
+def logit_oper(operator, left, right=None):
+    if operator == Connectives.AND:
+        return TruthTables.resolveAnd(left, right)
+    elif operator == Connectives.OR:
+        return TruthTables.resolveOr(left, right)
+    elif operator == Connectives.NOT:
+        return TruthTables.resolveNot(left)
+    elif operator == Connectives.IMPLY:
+        return TruthTables.resolveImply(left, right)
+    elif operator == Connectives.IFF:
+        return TruthTables.resolveIff(left, right)
+
 def evaluate_expression(expression):
     stack = []
     for i in range(len(expression)):
