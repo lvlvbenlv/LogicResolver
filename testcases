@@ -1,1 +1,9 @@
+( ( P \and ( P \imply Q ) ) \imply Q )
+
+( ( \not ( \not P ) ) \iff P )
+
+( P \imply P )
+
+( ( P \and Q ) \imply P )
+
 ( ( ( B \or C ) \and ( C \and D ) ) \imply ( B \or C ) )
