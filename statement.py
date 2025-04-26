@@ -24,7 +24,7 @@ class Statement:
             except ValueError:
                 continue
             
-    def generate_combinations(self):
+    def is_tautology(self):
         self.get_variables()
         variable_count = len(self.variables)
         all_comb = list(product([0, 1], repeat=variable_count))
