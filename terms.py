@@ -26,6 +26,6 @@ class Variable:
     def set_value(self, value):
         self.value = value
 
-    def valid_name(s):
+    def valid_name(self, s):
         pattern = r"^[A-Z][A-Za-z0-9_]*$"
         return bool(re.match(pattern, s))

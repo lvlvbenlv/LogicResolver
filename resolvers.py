@@ -6,7 +6,7 @@ class TruthTables:
             return bool(statement1.value) and bool(statement2.value)
 
     def resolveOr(self, statement1, statement2):
-        if statement1.value != Values.UNKNOWN or statement2.value != Values.UNKNOWN:
+        if statement1.value != Values.UNKNOWN and statement2.value != Values.UNKNOWN:
             return bool(statement1.value) or (statement2.value)
 
     def resolveNot(self, statement1):
