@@ -13,14 +13,14 @@ class Statement:
     # statements only consist of logic variables
     def get_variables(self):
         self.variables = []
-        self.var_index = []
         for i in range(len(self.components)):
             component = self.components[i]
             try:
                 var = Variable(component)
+                index = self.components.index(component)
+                self.components[index] = var
                 if var.name not in [v.name for v in self.variables]:
                     self.variables.append(var)
-                    self.var_index.append(i)
             except ValueError:
                 continue
             
