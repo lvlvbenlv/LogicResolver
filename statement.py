@@ -28,14 +28,14 @@ class Statement:
         self.get_variables()
         variable_count = len(self.variables)
         all_comb = list(product([0, 1], repeat=variable_count))
-        print(all_comb)
         logical_results = []
         for comb in all_comb:
             for i in range(variable_count):
                 self.variables[i].set_value(comb[i])
-                self.components[self.var_index[i]] = self.variables[i]
             current_expression = self.components
             logical_results.append(evaluate_expression(current_expression).value)
+        print(all_comb)
+        print(logical_results)
         return (all(logical_results))
 
 
