@@ -2,6 +2,7 @@ from symbols import Connectives
 from resolvers import TruthTables
 from terms import Variable
 
+
 def logit_oper(operator, left, right=None):
     truth_table = TruthTables()
     if operator == Connectives.AND:
