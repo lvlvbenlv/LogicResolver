@@ -9,7 +9,6 @@ def wait_for_query():
             proceed_command(query)
         else:
             statement = Statement(query)
-            print(statement.components)
             print(statement.is_tautology())
 
 def proceed_command(command):
