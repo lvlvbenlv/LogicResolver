@@ -37,10 +37,16 @@ def evaluate_expression(expression): # return an variable object, access by .val
     return stack[0] if stack else None
 
 def evaluate_sub_expression(sub_expr):
-    while len(sub_expr) > 1:
-        left = sub_expr.pop(0)
-        operator = sub_expr.pop(0)
-        right = sub_expr.pop(0)
-        result = logit_oper(operator, left, right)
-        sub_expr.insert(0, result)
-    return result
+    while len(sub_expr) > 1 or (len(sub_expr) == 2 and sub_expr[0] == Connectives.NOT):
+        if len(sub_expr) == 2 and sub_expr[0] == Connectives.NOT:
+            operator = sub_expr.pop(0)
+            operand = sub_expr.pop(0)
+            result = logit_oper(operator, operand)
+            sub_expr.insert(0, result)
+        else:
+            left = sub_expr.pop(0)
+            operator = sub_expr.pop(0)
+            right = sub_expr.pop(0)
+            result = logit_oper(operator, left, right)
+            sub_expr.insert(0, result)
+    return sub_expr[0]

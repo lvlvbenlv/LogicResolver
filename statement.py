@@ -34,8 +34,8 @@ class Statement:
                 self.variables[i].set_value(comb[i])
             current_expression = self.components
             logical_results.append(evaluate_expression(current_expression).value)
-        print(all_comb)
-        print(logical_results)
+        # print(all_comb)
+        # print(logical_results)
         return (all(logical_results))
 
 
