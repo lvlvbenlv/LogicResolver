@@ -1,6 +1,6 @@
-from symbols import Connectives
-from resolvers import TruthTables
-from terms import Variable
+from utils.tokens import Connectives
+from first_order_logic.resolvers import TruthTables
+from utils.terms import Variable
 
 
 def logit_oper(operator, left, right=None):

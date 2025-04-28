@@ -1,6 +1,6 @@
-from statement import *
-from symbols import *
-from messages import *
+from first_order_logic.statement import *
+from utils.tokens import *
+from utils.messages import *
 
 def wait_for_query():
     while True:
@@ -8,7 +8,7 @@ def wait_for_query():
         if query in vars(Commands).values():
             proceed_command(query)
         else:
-            statement = Statement(query)
+            statement = StatementForm(query)
             print(statement.is_tautology())
 
 def proceed_command(command):

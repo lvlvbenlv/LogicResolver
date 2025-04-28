@@ -1,4 +1,4 @@
-from utils import *
+from utils.data_structures import *
 
 class TruthTables:
     def resolveAnd(self, statement1, statement2):

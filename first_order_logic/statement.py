@@ -1,15 +1,24 @@
-from terms import *
-from symbols import *
-from utils import *
-from stackmethod import *
+from system.query_analysers import *
+from utils.data_structures import *
+from first_order_logic.stack_method import *
 from itertools import product
 
 class Statement:
 
     def __init__(self, statement):
-        self.components = statement.split() # a list of all statement components
+        self.components = LexicalAnalyser(statement).tokens # a list of all statement components
         self.value = Values.UNKNOWN # the logic value of the statement
         
+
+            
+
+
+class StatementForm(Statement):
+
+    def __init__(self, statement):
+        super().__init__(statement)
+        self.get_variables()
+
     # statements only consist of logic variables
     def get_variables(self):
         self.variables = []
@@ -26,7 +35,7 @@ class Statement:
                     self.variables.append(var)
             except ValueError:
                 continue
-            
+
     def is_tautology(self):
         self.get_variables()
         variable_count = len(self.variables)
@@ -38,6 +47,3 @@ class Statement:
             current_expression = self.components
             logical_results.append(evaluate_expression(current_expression).value)
         return (all(logical_results))
-
-
-

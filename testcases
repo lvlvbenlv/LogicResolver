@@ -7,3 +7,9 @@
 ( ( P \and Q ) \imply P )
 
 ( ( ( B \or C ) \and ( C \and D ) ) \imply ( B \or C ) )
+
+( A \or B )
+
+( ( ( A \or B ) \and ( C \or D ) ) \and ( C \or D ) )
+
+( ( ( \not ( A \and ( B \or C ) ) ) \imply ( D \and ( \not ( E \or F ) ) ) ) \iff ( ( G \or H ) \imply I ) )
