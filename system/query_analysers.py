@@ -1,4 +1,6 @@
 import re
+
+from utils.data_structures import BinaryTree
 from utils.tokens import *
 
 class LexicalAnalyser:
@@ -45,3 +47,33 @@ class LexicalAnalyser:
             index += 1
         self.query = str[index:]
         self.tokens.append(str[:index])
+
+class ASTConstructor:
+
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.AST = BinaryTree(self.tokens)
+
+    def construct_by_token(self, binary_tree, token):
+        for index, t in enumerate(binary_tree.value):
+            if t == token:
+                binary_tree.left = binary_tree.value[:index]
+                binary_tree.right = binary_tree.value[index+1:]
+                binary_tree.value = token
+                self.construct_by_token(binary_tree.right, token)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

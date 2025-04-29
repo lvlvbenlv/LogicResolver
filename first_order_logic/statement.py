@@ -34,7 +34,8 @@ class StatementForm(Statement):
                 if var.name not in [v.name for v in self.variables]:
                     self.variables.append(var)
             except ValueError:
-                continue
+                pass
+
 
     def is_tautology(self):
         self.get_variables()
