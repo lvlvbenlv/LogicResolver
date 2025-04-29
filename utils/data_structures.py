@@ -1,3 +1,5 @@
+from utils.tokens import *
+
 class Values:
     TRUE = 1
     FALSE = 0
@@ -15,6 +17,21 @@ class Stack:
 
     def pop(self):
         return self.items.pop()
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+
+
+class ParenStack(Stack):
+
+    def take(self, paren):
+        if paren == Delimiters.L_PAREN:
+            self.push(paren)
+        elif paren == Delimiters.R_PAREN:
+            self.pop()
+        # else:
+        #     raise ValueError("Expecting parentheses in stack")
 
 
 
@@ -88,11 +105,5 @@ class BinaryTree:
             except ValueError:
                 pass
 
-    def _is_leaf(self):
-        return self.left is None and self.right is None
-
-# bt = BinaryTree(5)
-# bt.set_left(BinaryTree(3))
-# bt.set_right(BinaryTree(9))
-# print(bt.leaves)
-# bt.print_tree()
+    # def _is_leaf(self):
+    #     return self.left is None and self.right is None

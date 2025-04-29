@@ -1,6 +1,6 @@
 import re
-from copy import deepcopy
-from utils.data_structures import BinaryTree
+
+from utils.data_structures import *
 from utils.tokens import *
 
 class LexicalAnalyser:
@@ -54,26 +54,45 @@ class ASTConstructor:
     def __init__(self, tokens):
         self.tokens = tokens
         self.AST = BinaryTree(self.tokens)
-        self.construct()
+        self.construct(self.AST)
 
-    def construct(self):
+    def construct(self, binary_tree):
         for connective in Connectives.PRIORITY:
-            leaves = self.AST.leaves[:]
+            leaves = self.AST.leaves[:] # copy the leaves list, shouldn't use deep copy
             for leaf in leaves:
-                self._construct_by_token(leaf, connective)
+                if self._remove_parens(leaf.value):
+                    # there's a substructure in parentheses, recursively construct it from the first connective
+                    self.construct(leaf)
+                else:
+                    self._construct_by_token(leaf, connective)
 
     def _construct_by_token(self, binary_tree, token):
-        for index, t in enumerate(binary_tree.value):
-            if t == token:
-                if token != Connectives.NOT:
-                    binary_tree.set_left(BinaryTree(binary_tree.value[:index]))
-                binary_tree.set_right(BinaryTree(binary_tree.value[index+1:]))
-                binary_tree.set_value(token)
-                self._construct_by_token(binary_tree.right, token)
+        index = self._token_ignore_parens(binary_tree, token)
+        if index is not None:
+            if token != Connectives.NOT:
+                binary_tree.set_left(BinaryTree(binary_tree.value[:index]))
+            binary_tree.set_right(BinaryTree(binary_tree.value[index+1:]))
+            binary_tree.set_value(token)
+            self._construct_by_token(binary_tree.right, token)
 
-tokens = LexicalAnalyser("\\not A\\and B\\or C \\imply D\\and \\not E\\or F\\iff G\\or H\\imply I").tokens
-print(tokens)
-ASTConstructor(tokens).AST.print_tree()
+    def _token_ignore_parens(self, binary_tree, token):
+        parens = ParenStack()
+        for index, t in enumerate(binary_tree.value):
+            parens.take(t)
+            if parens.is_empty() and t == token:
+                return index
+
+    def _remove_parens(self, lst):
+        if lst and lst[0] == Delimiters.L_PAREN and lst[-1] == Delimiters.R_PAREN:
+            del lst[0]
+            del lst[-1]
+            return True
+        else:
+            return False
+
+# tokens = LexicalAnalyser("\\iff A").tokens
+# print(tokens)
+# ASTConstructor(tokens).AST.print_tree()
 
 
 

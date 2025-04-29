@@ -13,3 +13,7 @@
 ( ( ( A \or B ) \and ( C \or D ) ) \and ( C \or D ) )
 
 ( ( ( \not ( A \and ( B \or C ) ) ) \imply ( D \and ( \not ( E \or F ) ) ) ) \iff ( ( G \or H ) \imply I ) )
+
+"\\not A\\and B\\or C \\imply D\\and \\not E\\or F\\iff G\\or H\\imply I"
+
+"\\not A\\and (B\\or(C \\imply D\\and \\not E)\\or F\\iff G)\\or H\\imply I"
