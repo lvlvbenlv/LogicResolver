@@ -1,5 +1,5 @@
 import re
-
+from copy import deepcopy
 from utils.data_structures import BinaryTree
 from utils.tokens import *
 
@@ -40,28 +40,40 @@ class LexicalAnalyser:
     def extract_term(self):
         self.keyword_index(0)
 
-    def keyword_index(self, start):
+    def keyword_index(self, index):
         str = self.query
-        index = start
-        while re.match(self.KEYWORD_PATTERN, str[index]):
+        while (index < len(str)) and re.match(self.KEYWORD_PATTERN, str[index]):
             index += 1
         self.query = str[index:]
         self.tokens.append(str[:index])
+
+
 
 class ASTConstructor:
 
     def __init__(self, tokens):
         self.tokens = tokens
         self.AST = BinaryTree(self.tokens)
+        self.construct()
 
-    def construct_by_token(self, binary_tree, token):
+    def construct(self):
+        for connective in Connectives.PRIORITY:
+            leaves = self.AST.leaves[:]
+            for leaf in leaves:
+                self._construct_by_token(leaf, connective)
+
+    def _construct_by_token(self, binary_tree, token):
         for index, t in enumerate(binary_tree.value):
             if t == token:
-                binary_tree.left = binary_tree.value[:index]
-                binary_tree.right = binary_tree.value[index+1:]
-                binary_tree.value = token
-                self.construct_by_token(binary_tree.right, token)
+                if token != Connectives.NOT:
+                    binary_tree.set_left(BinaryTree(binary_tree.value[:index]))
+                binary_tree.set_right(BinaryTree(binary_tree.value[index+1:]))
+                binary_tree.set_value(token)
+                self._construct_by_token(binary_tree.right, token)
 
+tokens = LexicalAnalyser("\\not A\\and B\\or C \\imply D\\and \\not E\\or F\\iff G\\or H\\imply I").tokens
+print(tokens)
+ASTConstructor(tokens).AST.print_tree()
 
 
 

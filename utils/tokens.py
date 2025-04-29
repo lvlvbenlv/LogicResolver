@@ -24,6 +24,7 @@ class Connectives(Symbols):
     OR = "\\or"
     IMPLY = "\\imply"
     IFF = "\\iff"
+    PRIORITY = [IFF, IMPLY, OR, AND, NOT]
 
 class Quantifiers(Symbols):
     FORALL = "\\forall"
