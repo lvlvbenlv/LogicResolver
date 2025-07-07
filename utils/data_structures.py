@@ -1,9 +1,39 @@
 from utils.tokens import *
 
 class Values:
-    TRUE = 1
-    FALSE = 0
-    UNKNOWN = -1
+
+    TRUE = True
+    FALSE = False
+    UNKNOWN = None
+
+    @staticmethod
+    def And(val1, val2):
+        if val1 == Values.FALSE or val2 == Values.FALSE:
+            return Values.FALSE
+        else:
+            return val1 and val2
+
+    @staticmethod
+    def Or(val1, val2):
+        if val1 == Values.TRUE or val2 == Values.TRUE:
+            return Values.TRUE
+        else:
+            return val1 or val2
+
+    @staticmethod
+    def Not(val):
+        if val == Values.UNKNOWN:
+            return Values.UNKNOWN
+        else:
+            return not val
+
+    @staticmethod
+    def Imply(val1, val2):
+        return Values.Or(Values.Not(val1), val2)
+
+    @staticmethod
+    def Iff(val1, val2):
+        return Values.And(Values.Imply(val1, val2), Values.Imply(val2, val1))
 
 
 
@@ -29,9 +59,9 @@ class ParenStack(Stack):
         if paren == Delimiters.L_PAREN:
             self.push(paren)
         elif paren == Delimiters.R_PAREN:
+            if self.is_empty():
+                raise ValueError("Unmatched right parenthesis ')'")
             self.pop()
-        # else:
-        #     raise ValueError("Expecting parentheses in stack")
 
 
 
@@ -50,15 +80,15 @@ class BinaryTree:
         self.value = value
 
     def set_left(self, binary_tree):
-        self._set_branch('left', binary_tree)
+        self.__set_branch__('left', binary_tree)
 
     def set_right(self, binary_tree):
-        self._set_branch('right', binary_tree)
-
-    def set_parent(self, parent):
-        self.parent = parent
+        self.__set_branch__('right', binary_tree)
 
     ### public methods ###
+
+    def is_leaf(self):
+        return self.left is None and self.right is None
 
     def height(self):
         left_height = self.left.height() if self.left else 0
@@ -76,34 +106,30 @@ class BinaryTree:
 
     ### internal methods ###
 
-    def _set_branch(self, branch_name, binary_tree):
+    def __set_branch__(self, branch_name, binary_tree):
         branch = getattr(self, branch_name) # either self.left or self.right
         binary_tree.parent = self
         if branch:
-            self._update_leaves(branch.leaves, binary_tree.leaves)
-            self._update_parent_leaves(branch.leaves, binary_tree.leaves)
+            self.__update_leaves__(branch.leaves, binary_tree.leaves)
+            self.__update_parent_leaves__(branch.leaves, binary_tree.leaves)
         else:
-            self._update_leaves([self], binary_tree.leaves)
-            self._update_parent_leaves([self], binary_tree.leaves)
+            self.__update_leaves__([self], binary_tree.leaves)
+            self.__update_parent_leaves__([self], binary_tree.leaves)
         setattr(self, branch_name, binary_tree)
 
-
-    def _update_leaves(self, rm_leaves, add_leaves):
-        self._remove_leaves(rm_leaves)
+    def __update_leaves__(self, rm_leaves, add_leaves):
+        self.__remove_leaves__(rm_leaves)
         self.leaves += add_leaves
 
-    def _update_parent_leaves(self, rm_leaves, add_leaves):
+    def __update_parent_leaves__(self, rm_leaves, add_leaves):
         if self.parent:
-            self.parent._remove_leaves(rm_leaves)
+            self.parent.__remove_leaves__(rm_leaves)
             self.parent.leaves += add_leaves
-            self.parent._update_parent_leaves(rm_leaves, add_leaves)
+            self.parent.__update_parent_leaves__(rm_leaves, add_leaves)
 
-    def _remove_leaves(self, rm):
+    def __remove_leaves__(self, rm):
         for leaf in rm:
             try:
                 self.leaves.remove(leaf)
             except ValueError:
                 pass
-
-    # def _is_leaf(self):
-    #     return self.left is None and self.right is None

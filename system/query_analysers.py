@@ -1,7 +1,8 @@
 import re
-
 from utils.data_structures import *
 from utils.tokens import *
+from itertools import product
+from copy import deepcopy
 
 class LexicalAnalyser:
 
@@ -49,62 +50,113 @@ class LexicalAnalyser:
 
 
 
-class ASTConstructor:
+class AbstractSyntaxTree(BinaryTree):
 
     def __init__(self, tokens):
-        self.tokens = tokens
-        self.AST = BinaryTree(self.tokens)
-        self.construct(self.AST)
+        super().__init__(tokens)
+        self.__construct__(self)
 
-    def construct(self, binary_tree):
+    @classmethod
+    def __construct__(cls, ast):
         for connective in Connectives.PRIORITY:
-            leaves = self.AST.leaves[:] # copy the leaves list, shouldn't use deep copy
+            leaves = ast.leaves[:] # copy the leaves list, shouldn't use deepcopy
             for leaf in leaves:
-                if self._remove_parens(leaf.value):
+                if cls.__remove_parens__(leaf.value) and leaf.value:
                     # there's a substructure in parentheses, recursively construct it from the first connective
-                    self.construct(leaf)
-                else:
-                    self._construct_by_token(leaf, connective)
+                    cls.__construct__(leaf)
+                elif leaf.value:
+                    cls.__construct_by_token__(leaf, connective)
 
-    def _construct_by_token(self, binary_tree, token):
-        index = self._token_ignore_parens(binary_tree, token)
+    @classmethod
+    def __construct_by_token__(cls, ast, token):
+        index = cls.__token_ignore_parens__(ast, token)
         if index is not None:
             if token != Connectives.NOT:
-                binary_tree.set_left(BinaryTree(binary_tree.value[:index]))
-            binary_tree.set_right(BinaryTree(binary_tree.value[index+1:]))
-            binary_tree.set_value(token)
-            self._construct_by_token(binary_tree.right, token)
+                ast.set_left(cls(ast.value[:index]))
+            ast.set_right(cls(ast.value[index + 1:]))
+            ast.set_value(token)
+            cls.__construct_by_token__(ast.right, token)
 
-    def _token_ignore_parens(self, binary_tree, token):
+    @classmethod
+    def __token_ignore_parens__(cls, binary_tree, token):
         parens = ParenStack()
         for index, t in enumerate(binary_tree.value):
             parens.take(t)
             if parens.is_empty() and t == token:
                 return index
 
-    def _remove_parens(self, lst):
+    @staticmethod
+    def __remove_parens__(lst):
         if lst and lst[0] == Delimiters.L_PAREN and lst[-1] == Delimiters.R_PAREN:
-            del lst[0]
-            del lst[-1]
-            return True
+            parens = ParenStack()
+            for index, t in enumerate(lst):
+                parens.take(t)
+                if parens.is_empty():
+                    if index == len(lst) - 1:
+                        lst[:] = lst[1:-1]
+                        return True
+                    else:
+                        return False
         else:
             return False
 
-# tokens = LexicalAnalyser("\\iff A").tokens
-# print(tokens)
-# ASTConstructor(tokens).AST.print_tree()
 
 
+class StatementForm(AbstractSyntaxTree):
 
+    def __init__(self, tokens):
+        super().__init__(tokens)
+        self.logic_value = Values.UNKNOWN
 
+    def set_var(self, name, logic_value):
+        for leaf in self.leaves:
+            if leaf.value == [name]:
+                leaf.logic_value = logic_value
 
+    def evaluate(self):
+        if self.is_leaf():
+            return self.logic_value
+        else:
+            if self.value == Connectives.NOT:
+                return Values.Not(self.right.evaluate())
+            elif self.value == Connectives.AND:
+                return Values.And(self.left.evaluate(), self.right.evaluate())
+            elif self.value == Connectives.OR:
+                return Values.Or(self.left.evaluate(), self.right.evaluate())
+            elif self.value == Connectives.IMPLY:
+                return Values.Imply(self.left.evaluate(), self.right.evaluate())
+            elif self.value == Connectives.IFF:
+                return Values.Iff(self.left.evaluate(), self.right.evaluate())
+            else:
+                raise ValueError(f"Unrecognized connective {repr(self.value)}")
 
+    def is_tautology(self):
+        vars = list(set([leaf.value[0] for leaf in self.leaves]))
+        vars_num = len(vars)
+        all_comb = list(product([0, 1], repeat=vars_num))
+        logical_results = []
+        for comb in all_comb:
+            self_copy = deepcopy(self)
+            for i in range(vars_num):
+                self_copy.set_var(vars[i], comb[i])
+            logical_results.append(self_copy.evaluate())
+        return all(logical_results)
 
+# query = "\\not A\\and (B\\or(C \\imply D\\and \\not E)\\or F\\iff G)\\or H\\imply I"
+# tokens = LexicalAnalyser(query).tokens
+# s = statementForm(tokens)
+# s.set_var("A", Values.TRUE)
+# s.set_var("B", Values.TRUE)
+# s.set_var("C", Values.TRUE)
+# s.set_var("D", Values.TRUE)
+# s.set_var("E", Values.TRUE)
+# s.set_var("F", Values.TRUE)
+# s.set_var("G", Values.TRUE)
+# s.set_var("H", Values.FALSE)
+# s.set_var("I", Values.FALSE)
+# print(s.evaluate())
 
-
-
-
-
-
-
-
+# query = "( ( ( A \\or B ) \\and ( C \\or D ) ) \\and ( C \\or D ) )"
+# tokens = LexicalAnalyser(query).tokens
+# s = statementForm(tokens)
+# print(s.is_tautology())

@@ -1,4 +1,4 @@
-from first_order_logic.statement import *
+from system.query_analysers import *
 from utils.tokens import *
 from utils.messages import *
 
@@ -8,7 +8,8 @@ def wait_for_query():
         if query in vars(Commands).values():
             proceed_command(query)
         else:
-            statement = StatementForm(query)
+            tokens = LexicalAnalyser(query).tokens
+            statement = StatementForm(tokens)
             print(statement.is_tautology())
 
 def proceed_command(command):

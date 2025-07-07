@@ -1,5 +1,5 @@
 import re
-from data_structures import *
+from utils.data_structures import *
 
 class Atom:
 
@@ -9,7 +9,7 @@ class Atom:
         else:
             raise ValueError("Invalid name")
 
-    def valid_name(s):
+    def valid_name(self, s):
         pattern = r"^[a-z][A-Za-z0-9_]*$"
         return bool(re.match(pattern, s))
 
